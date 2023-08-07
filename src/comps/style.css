@@ -1,0 +1,17 @@
+.container{
+    width: 60vh;
+    padding: 20px;
+}
+.card{
+  background: rgba(255, 255, 255, 0.322);
+}
+.alert{
+  width: 40vh;
+}
+.master{position: relative; padding: 60px;  border-radius: 20px;}
+.conatainer-days{  
+max-width: 80%;
+  position: absolute;
+  bottom: -200px;
+
+}
