@@ -29,6 +29,17 @@ max-width: 80%;
   color: white;
   text-decoration: none;
 }
+.link{
+  text-decoration: none;
+}
+.activ--link{
+  color: red;
+}
+.header--ul{
+  display: flex;
+  
+}
 .header--li{
   list-style-type: none;
+  margin: 10px;
 }

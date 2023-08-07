@@ -17,8 +17,8 @@ export default function Home() {
   const arrayDays=["מחר","בעוד יומים","בעוד שלושה ימים","בעוד ארבעה ימים"]
 
   useEffect( ()=>{
-   History(city)
-   onLoad()
+    onLoad()
+  
 
   },[city])
  
@@ -26,8 +26,9 @@ export default function Home() {
     try{
    const resp= await getLongLat()
     if (resp.data) { 
+      console.log(resp.data);
       let data=(weatherData.find((obj)=>obj.lat==resp.data.latitude.toFixed(4) && obj.lon==resp.data.longitude.toFixed(4) ));
-      //  let data=await getWather(resp.data)
+      
       try {
            setWeather(data.daily)
       } catch (error) {
@@ -134,12 +135,14 @@ export default function Home() {
           <div className='d-flex align-items-center justify-content-center'>
           <select ref={selectRef} className='col-3' defaultValue={city} >
           {cities.map((cityItem, index) => {
-            return (<option key={index}>{cityItem.city}</option>)
+            return (<option key={index} >{cityItem.city}</option>)
           })}
           </select>
         
           <button className=' btn justify-content-center m-1 d-flex' onClick={()=>{
             setCity(selectRef.current.value);
+            let propertyCity=cities[selectRef.current.selectedIndex];
+            History({propertyCity,weather})
           }}>
           <svg className='' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />

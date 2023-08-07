@@ -7,6 +7,7 @@ export  function ContexProvider({children}) {
     const [user,setUser]=useState({})
     const [cities,setCities]=useState([])
     const [history,setHistory]=useState([]);
+
   return (
     <UserContex.Provider value={{user,setUser,cities,setCities,history,setHistory}}>
         {children}

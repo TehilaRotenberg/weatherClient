@@ -34,3 +34,19 @@ code {
   background-color: rgba(255, 255, 255, 0.582);
 }
 
+table{
+direction: rtl;
+background: white;
+
+}
+.th{
+  background: #e8edf3cc;
+ 
+}
+.td{
+  border-color:gray;
+  border-width: 1px;
+  padding: 10px;
+}
+
+

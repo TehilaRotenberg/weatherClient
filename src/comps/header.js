@@ -1,14 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import UserContex from '../contex'
+
 
 export default function Header() {
+
+ const {history}=useContext(UserContex)
   return (
     <div className='header'>
         <nav>
-            <ul>
+            <ul className='header--ul'>
                 <li className='header--li'>
                    <Link className='header--Link' to={"/home"}>ראשי</Link>
                 </li>
+                <li className='header--li'><Link className='header--Link' to={"/history"}>היסטוריה- {history.length}</Link></li>
             </ul>
         </nav>
     </div>
