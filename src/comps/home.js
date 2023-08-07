@@ -13,12 +13,13 @@ export default function Home() {
   const [city,setCity]=useState("Jerusalem")
   const selectRef=useRef(null)
   const {user}=useContext(UserContex)
-  const {cities,setCities}=useContext(UserContex)
+  const {cities,setCities,history,setHistory}=useContext(UserContex)
   const arrayDays=["מחר","בעוד יומים","בעוד שלושה ימים","בעוד ארבעה ימים"]
 
   useEffect( ()=>{
-   
+   History(city)
    onLoad()
+
   },[city])
  
   const onLoad=async ()=>{
@@ -111,6 +112,16 @@ export default function Home() {
       mone++;
     }
     return mone;
+  }
+
+  const History=(item)=>{
+  let historyTemp=history;
+  historyTemp.push(item);
+  if (historyTemp.length>5) {
+    historyTemp.shift();
+  }
+  setHistory(historyTemp)
+  console.log(history);
   }
 
   return (
