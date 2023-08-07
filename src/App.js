@@ -4,19 +4,28 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './comps/login';
 import Home from './comps/home';
 import { ContexProvider } from './contex';
+import Header from './comps/header';
 
 function App() {
   return (
+  
+    <div className="App"> 
+   
     
-    <div className="App d-flex align-items-center">
-<ContexProvider>
-      <BrowserRouter>
+      <ContexProvider> 
+       
+      <BrowserRouter> 
+     
+      <Header></Header> 
+      <div className='d-flex align-items-center'>
         <Routes>
           <Route path='/' element={<Login></Login>}></Route>
           <Route path='/home' element={<Home></Home>}></Route>
-        </Routes>
+        </Routes>   
+      </div>
       </BrowserRouter>
-</ContexProvider>
+      </ContexProvider>
+   
     </div>
   );
 }
