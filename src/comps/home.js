@@ -10,43 +10,52 @@ import Days from './days'
 export default function Home() {
   
   const [weather,setWeather]=useState([])
-  const [city,setCity]=useState("Jerusalem")
+  // const [city,setCity]=useState("Jerusalem")
   const selectRef=useRef(null)
   const {user}=useContext(UserContex)
-  const {cities,setCities,history,setHistory}=useContext(UserContex)
+  const {cities,setCities,history,setHistory,city,setCity,History}=useContext(UserContex)
   const arrayDays=["מחר","בעוד יומים","בעוד שלושה ימים","בעוד ארבעה ימים"]
+  const [isChange,setisChange]=useState(false)
+
 
   useEffect( ()=>{
     onLoad()
-  
-
   },[city])
  
   const onLoad=async ()=>{
+    
     try{
-   const resp= await getLongLat()
-    if (resp.data) { 
-      console.log(resp.data);
-      let data=(weatherData.find((obj)=>obj.lat==resp.data.latitude.toFixed(4) && obj.lon==resp.data.longitude.toFixed(4) ));
-      
-      try {
-           setWeather(data.daily)
-      } catch (error) {
-       
+      if(history.length<1 || isChange==true){
+          const resp= await getLongLat()
+          if (resp.data) {  
+                console.log(resp.data);
+                let data=(weatherData.find((obj)=>obj.lat==resp.data.latitude.toFixed(4) && obj.lon==resp.data.longitude.toFixed(4)));
+               if (data) {
+                try { 
+                  const daily=data.daily
+                  setWeather(daily)
+                  History({city,daily});
+                } catch (error) {
+                  console.log(error);
+                }
+                setisChange(false)
+               }
+            }
+        }else{   
+          setCity(history[history.length-1].city)
+          setWeather(history[history.length-1].daily)
+        }
       }
-   
-      
-    }
-  }
   catch(error){
     console.log(error);
   } 
-  }
+}
+
   
   const getLongLat = async ()=>{
     const headers=JSON.parse(localStorage.getItem("user"))
     try{
-      let resp= await apiMethod(`http://localhost:3001/cities/${city}`,"get",{},headers);
+      let resp= await apiMethod(`http://localhost:3001/cities/${city.city}`,"get",{},headers);
       return resp;
   }catch(error){
     console.log(error);
@@ -115,15 +124,14 @@ export default function Home() {
     return mone;
   }
 
-  const History=(item)=>{
-  let historyTemp=history;
-  historyTemp.push(item);
-  if (historyTemp.length>5) {
-    historyTemp.shift();
-  }
-  setHistory(historyTemp)
-  console.log(history);
-  }
+  // const History=(item)=>{
+  // let historyTemp=history;
+  // historyTemp.push(item);
+  // if (historyTemp.length>5) {
+  //   historyTemp.shift();
+  // }
+  // setHistory(historyTemp)
+  // }
 
   return (
     <React.Fragment>
@@ -133,16 +141,16 @@ export default function Home() {
         <div>
           <h2>שלום: {user.First_Name} {user.Last_Name}</h2>
           <div className='d-flex align-items-center justify-content-center'>
-          <select ref={selectRef} className='col-3' defaultValue={city} >
+          <select ref={selectRef} className='col-3' defaultValue={city.city} >
           {cities.map((cityItem, index) => {
             return (<option key={index} >{cityItem.city}</option>)
           })}
           </select>
         
           <button className=' btn justify-content-center m-1 d-flex' onClick={()=>{
-            setCity(selectRef.current.value);
-            let propertyCity=cities[selectRef.current.selectedIndex];
-            History({propertyCity,weather})
+            // setCity(selectRef.current.value);
+            setisChange(true);
+            setCity(cities[selectRef.current.selectedIndex])
           }}>
           <svg className='' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -157,7 +165,7 @@ export default function Home() {
                   <div className='col-5 m-2 d-flex align-items-center'>
                     <div>
                     <span className='display'>היום</span>
-                    <h2 className='h2'>{city}</h2>
+                    <h2 className='h2'>{city.city}</h2>
                     <div>טמפרטורה: &#8451;{calacTemp(0)}</div>
                     <div>{getDescraption(0)}</div></div>
                   </div>

@@ -31,25 +31,31 @@ export default function Login() {
 
   const onLoade=async()=>{
     if (localStorage["user"]) {
-     await setFormData(JSON.parse(localStorage.getItem("user")));
+      console.log(JSON.parse(localStorage.getItem("user")));
+      await setFormData(JSON.parse(localStorage.getItem("user")));
+      login()
     }   
     
-    // login()
+    
+    
    
   }
+  const {user,setUser,setCities,cities,setCity}=useContext(UserContex)
 
   const loderCities=async()=>{
     console.log(localStorage.getItem("user"));
    try{
     let resp=await apiMethod("http://localhost:3001/getAllCities","get",{},JSON.parse(localStorage.getItem("user")))
     setCities(resp.data)
+    let cityFind=resp.data.find((obj)=>obj.city==="Jerusalem");
+    setCity(cityFind)
 
   }catch(error){
     console.log(error);
   }
    } 
 
-  const {user,setUser,setCities,cities}=useContext(UserContex)
+
   
   const handleChange=async(event)=>{
     setFormData(prevFormData => {
@@ -72,6 +78,7 @@ export default function Login() {
         setVlidatationUsername(usernameValidation(formData.user_name)) 
         let resp= await apiMethod('http://localhost:3001/login','post',{ },formData)
         if ( resp.status==200) {
+          
           localStorage.setItem("user",JSON.stringify(formData))
           setUser(resp.data);
           await loderCities()
