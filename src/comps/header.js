@@ -13,7 +13,7 @@ export default function Header() {
                 <li className='header--li'>
                    <Link className='header--Link' to={"/home"}>ראשי</Link>
                 </li>
-                <li className='header--li'><Link className='header--Link' to={"/history"}>היסטוריה- {history.length}</Link></li>
+                {/* <li className='header--li'><Link className='header--Link' to={"/history"}>היסטוריה- {history.length}</Link></li> */}
             </ul>
         </nav>
     </div>
