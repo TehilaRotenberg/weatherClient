@@ -6,6 +6,7 @@ import Home from './comps/home';
 import { ContexProvider } from './contex';
 import Header from './comps/header';
 import History from './comps/history';
+import Mador from './comps/mador';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path='/' element={<Login></Login>}></Route>
           <Route path='/home' element={<Home></Home>}></Route>
           <Route path='/history' element={<History></History>}></Route>
+          <Route path='/mador' element={<Mador></Mador>}></Route>
         </Routes>   
       </div>
       </BrowserRouter>
