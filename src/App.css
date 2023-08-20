@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  
   background: skyblue;
   background-image: url('../public/images/sky.jpg');
   background-size: cover;
@@ -33,7 +33,11 @@
   color: #61dafb;
 }
 
-
+.app-container{
+  display: flex;
+  align-items: center;
+  height: 90vh;
+}
 
 
 @keyframes App-logo-spin {
