@@ -20,7 +20,7 @@ function App() {
      
       <Header></Header> 
       
-      <div className='d-flex align-items-center'>
+      <div className='app-container d-flex align-items-center'>
         <Routes>
           <Route path='/' element={<Login></Login>}></Route>
           <Route path='/home' element={<Home></Home>}></Route>

@@ -4,11 +4,12 @@
 }
 .card{
   background: rgba(255, 255, 255, 0.322);
+  text-align: center;
 }
 .alert{
   width: 40vh;
 }
-.master{position: relative; padding: 60px;  border-radius: 20px;}
+.master{position: relative; padding: 60px;  border-radius: 20px;text-align: center; align-self: center; justify-content: center; display: flex;}
 .conatainer-days{  
 max-width: 80%;
   position: absolute;

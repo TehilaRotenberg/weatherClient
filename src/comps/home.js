@@ -5,6 +5,7 @@ import { apiGetMethod, apiMethod } from '../general/request'
 import { wait } from '@testing-library/user-event/dist/utils'
 import weatherData from '../apiRequest.json'
 import Days from './days'
+import Alert from './alert'
 // import env from 'react-dotenv'
 
 export default function Home() {
@@ -16,6 +17,10 @@ export default function Home() {
   const {cities,setCities,history,setHistory,city,setCity,History}=useContext(UserContex)
   const arrayDays=["מחר","בעוד יומים","בעוד שלושה ימים","בעוד ארבעה ימים"]
   const [isChange,setisChange]=useState(false)
+  const [error,setError]=useState({
+    titel:"",
+    message:""
+  })
 
 
   useEffect( ()=>{
@@ -24,7 +29,8 @@ export default function Home() {
  
   const onLoad=async ()=>{
     
-    try{
+    try{          
+    await loderCities()
       if(history.length<1 || isChange==true){
           const resp= await getLongLat()
           if (resp.data) {  
@@ -39,6 +45,12 @@ export default function Home() {
                   console.log(error);
                 }
                 setisChange(false)
+               }else{
+                setError(prevAlert=>{
+                  return{
+                    ...prevAlert,["message"]:"עיר הזו אינה נמצאת ברשימה"
+                  }
+                })
                }
             }
         }else{   
@@ -51,6 +63,18 @@ export default function Home() {
   } 
 }
 
+ const loderCities=async()=>{
+    console.log(localStorage.getItem("user"));
+   try{
+    let resp=await apiMethod("http://localhost:3001/getAllCities","get",{},JSON.parse(localStorage.getItem("user")))
+    setCities(resp.data)
+    let cityFind=resp.data.find((obj)=>obj.city==="Jerusalem");
+    setCity(cityFind)
+
+  }catch(error){
+    console.log(error);
+  }
+   } 
   
   const getLongLat = async ()=>{
     const headers=JSON.parse(localStorage.getItem("user"))
@@ -134,10 +158,11 @@ export default function Home() {
   // }
 
   return (
-    <React.Fragment>
+    <React.Fragment> 
     {
     (weather.length>0)?
     <div className='container white master'>
+          {(error.message.length>0)&&<Alert titel={error.titel} message={error.message} setError={setError}></Alert>}
         <div>
           <h2>שלום: {user.First_Name} {user.Last_Name}</h2>
           <div className='d-flex align-items-center justify-content-center'>
@@ -157,7 +182,7 @@ export default function Home() {
           </svg>
           </button>
        </div>
-       
+     
                 <div className='row justify-content-center'>
                   <div className='col-5 m-2 align-items-center'>
                     <img src={getImageByTemp(0)} width="70%"></img>
@@ -175,7 +200,7 @@ export default function Home() {
                   </div>
                 </div>
 
-    
+              
     </div>
      </div> :
       <div className="d-flex justify-content-center">
@@ -183,7 +208,11 @@ export default function Home() {
              <span className="visually-hidden">Loading...</span>
         </div>
         <span>loding...</span>
-       </div>}
+     </div>
+    
+    }
+   
+
     </React.Fragment>
 
   )

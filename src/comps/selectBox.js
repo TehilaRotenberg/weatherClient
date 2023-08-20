@@ -1,17 +1,33 @@
-import React, { useState } from 'react'
+import userEvent from '@testing-library/user-event';
+import React, { useContext, useEffect, useState } from 'react'
+import UserContex from '../contex';
 
-export default function SelectBox() {
- const [value,setValue]=useState("עיר")
- const [selectboxOpen,setSelectboxOpen]=useState(false)
-const options=["עיר","מיקום עיר בארץ","מין","תפקיד, דרגה"]
+export default function SelectBox(props) {
+ const {value,setValue}=props;
+ const [selectboxOpen,setSelectboxOpen]=useState(true)
+ const options=[{City:"עיר"},{City_Location:"מיקום עיר בארץ"},{Gender:"מין"},{Rank:"דרגה",Role:"תפקיד"}]
+ const {getKey,getValue}=useContext(UserContex)
+useEffect(()=>{
+ console.log(getKey(value));
+},[])
  const openAndCloseBox=()=>{
     setSelectboxOpen(!selectboxOpen)
  }
+//  const getValue=(object)=>{
+//     return object[getKey(object)]
+//  }
+//  const getKey=(object)=>{
+//   let keys=Object.keys(object);
+//   if (keys.length>1) {
+//     return keys;
+//   }
+//   return keys[0];
+//  }
     return (
-    <div>
+    <div className='select-box-container'>
         <div className='select-box-header'>
         <label> סדר לפי: </label>
-        <span>{value}</span> 
+        <span className='bold' style={{padding:"0px 5px"}}>{value[Object.keys(value)[0]]}</span> 
          {
            (!selectboxOpen)? 
            <div onClick={()=>{openAndCloseBox()}}>
@@ -22,15 +38,19 @@ const options=["עיר","מיקום עיר בארץ","מין","תפקיד, דר�
            <svg  xmlns="http://www.w3.org/2000/svg" width="13" height="16" viewBox="0 0 30 16" fill="none">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M26.0083 0.567594C26.8346 -0.189198 28.1742 -0.189198 29.0004 0.567594C29.8267 1.32439 29.8267 2.55139 29.0004 3.30818L16.306 14.9355C15.4798 15.6923 14.1402 15.6923 13.3139 14.9355L0.619549 3.30818C-0.206696 2.55139 -0.206696 1.32439 0.619549 0.567594C1.4458 -0.189198 2.7854 -0.189198 3.61165 0.567594L14.81 10.8246L26.0083 0.567594Z" fill="#555555"/>
             </svg>
-           </div>
-         }{(selectboxOpen)&& <div className='select-box'>
+        </div>
+         }
+        </div>
+        {(selectboxOpen)&& <div className='select-box'>
            {options.map((item)=>{
-            return(<div key={item} className={`${(item==value)?"bold":""}`} onClick={()=>setValue(item)}>
-                {item}
+           
+            return(<div key={getKey(item)} className={`${(getKey(item)==getKey(value))?"bold":""}`} onClick={()=>{
+              setValue(item) }
+            }>
+                {getValue(item)}
             </div>)
            })}
         </div>}
-        </div>
        
     </div>
   )
