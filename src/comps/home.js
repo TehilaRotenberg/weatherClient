@@ -26,11 +26,18 @@ export default function Home() {
   useEffect( ()=>{
     onLoad()
   },[city])
+
+  useEffect(()=>{
+    const f=async ()=>{
+      await loderCities()
+    }
+    f()
+  },[])
  
   const onLoad=async ()=>{
     
     try{          
-    await loderCities()
+   
       if(history.length<1 || isChange==true){
           const resp= await getLongLat()
           if (resp.data) {  
