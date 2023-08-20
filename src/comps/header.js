@@ -14,6 +14,7 @@ export default function Header() {
                    <Link className='header--Link' to={"/home"}>ראשי</Link>
                 </li>
                 <li className='header--li'><Link className='header--Link' to={"/mador"}>מדור</Link></li>
+                <li className='header--li'><Link className='header--Link' to={"/history"}>הסטוריה</Link></li>
             </ul>
         </nav>
     </div>
