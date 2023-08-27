@@ -27,19 +27,13 @@ export  function ContexProvider({children}) {
  }
 
    const History=(item)=>{
-    console.log(history);
-    setHistory(prev=>[...prev,item]);
-    if (history.length>5) {
-      removeFirstItem()
+    let historyTemp=history;
+    historyTemp.push(item);
+    if (historyTemp.length>5) {
+      historyTemp.shift();
     }
-    }
+    setHistory(historyTemp)}
     
-  const removeFirstItem = () => {
-    const updatedItems = [...history]; // Create a copy of the array
-    updatedItems.shift();            // Remove the first item
-    setHistory(updatedItems);          // Update the state with the modified array
-  };
-
   return (
     <UserContex.Provider value={{user,setUser,cities,setCities,history,setHistory,city,setCity,History,getDefulteValue,getValue,getKey,getKeys,selectedSoldiers,setselectedSoldiers}}>
         {children}

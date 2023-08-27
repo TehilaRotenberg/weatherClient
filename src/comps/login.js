@@ -41,11 +41,10 @@ const f=async ()=>{
          ["user_mispar_ishi"]:localStorage["user"]["user_mispar_ishi"],["user_name"]:localStorage["user"]["user_name"]}
      })
 
-     console.log(formData);  
-     login(JSON.parse(localStorage.getItem("user")))
-
+     console.log(formData);
    }
-    
+      login(JSON.parse(localStorage.getItem("user")))
+
   }
   const {user,setUser,setCities,cities,setCity}=useContext(UserContex)
 
@@ -69,7 +68,7 @@ const f=async ()=>{
   }
 
   const login=async (user)=>{
-    console.log(user);
+    console.log(formData);
     setVlidatationUsername(usernameValidation(user.user_name)) 
     if (validationuserName) {
        setLoding(true)
