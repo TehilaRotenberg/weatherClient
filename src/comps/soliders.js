@@ -71,8 +71,8 @@ const onload=async ()=>{
   const getSoliders=async ()=>{
   const headers=JSON.parse(localStorage.getItem("user"))
   let url="http://localhost:3001/getAllSoldiers";
-  await apiMethod(url,"get",{},headers).then(async resp=>await setSolidersArray(resp.data)).catch(console.log(error))
-  
+  let resp=await apiMethod(url,"get",{},headers)
+  await setSolidersArray(resp.data);
 
    }
 
